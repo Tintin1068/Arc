@@ -54,11 +54,8 @@ zlib1g-dev:i386
 "
 
 # python-markdown is needed to convert Markdown files to HTML.
-# npm is needed to install vulcanize
 arc_list="$arc_list
 python-markdown
-nodejs-legacy
-npm
 "
 
 # Packages for running 32-bit Chrome at out/chrome32/chrome. To build 32-bit

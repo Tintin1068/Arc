@@ -15,8 +15,8 @@ import sys
 
 from src.build import build_common
 from src.build import config_runner
-from src.build import download_arc_welder_deps
 from src.build import download_cts_files
+from src.build import download_naclports_files
 from src.build import download_sdk_and_ndk
 from src.build import open_source
 from src.build import staging
@@ -141,7 +141,7 @@ def _ensure_downloads_up_to_date():
   sync_nacl_sdk.check_and_perform_updates(cache_path, cache_size)
   download_sdk_and_ndk.check_and_perform_updates(cache_path, cache_size)
   download_cts_files.check_and_perform_updates(cache_path, cache_size)
-  download_arc_welder_deps.check_and_perform_updates(cache_path, cache_size)
+  download_naclports_files.check_and_perform_updates(cache_path, cache_size)
 
   if sync_gdb_multiarch.main():
     sys.exit(1)
