@@ -9,6 +9,7 @@
 import argparse
 import logging
 import os
+import shutil
 import sys
 import urllib
 
@@ -22,6 +23,9 @@ _DEPS_FILE_PATH = 'src/build/DEPS.naclsdk'
 _NACL_MIRROR = 'https://commondatastorage.googleapis.com/nativeclient-mirror'
 _LATEST_MANIFEST_URL = _NACL_MIRROR + '/nacl/nacl_sdk/naclsdk_manifest2.json'
 _NACL_SDK_ZIP_URL = _NACL_MIRROR + '/nacl/nacl_sdk/nacl_sdk.zip'
+_SRC_FILES = ['canned/host/nacl_sdk/download.py',
+              'canned/host/nacl_sdk/sdk_update.py']
+_DST_FILE_PATH = 'third_party/nacl_sdk/sdk_tools/'
 
 
 @build_common.with_retry_on_exception
@@ -38,6 +42,17 @@ class NaClSDKFiles(download_package_util.BasicCachedPackage):
   def post_update_work(self):
     # Update based on pinned manifest. This part can be as slow as 1-2 minutes
     # regardless of whether it is a fresh install or an update.
+
+    # Awful hack to avoid the certificates file used by NaCl SDK tools, as the
+    # current one causes an InvalidCertificateException. This will prevent
+    # NaCl SDK Tools from self-updating, as well as prevent the NaCl SDK Tools
+    # from using a now-invalid certificate file.
+    dst = os.path.join(build_common.get_arc_root(), _DST_FILE_PATH)
+    for f in _SRC_FILES:
+      src = os.path.join(build_common.get_arc_root(), f)
+      logging.info('%s: copying %s to %s', self.name, src, dst)
+      shutil.copy(src, dst)
+
     logging.info('%s: Updating naclsdk using manifest.', self.name)
     download_package_util.execute_subprocess([
         './naclsdk', 'update', '-U',

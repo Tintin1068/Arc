@@ -66,6 +66,10 @@
   # Having ARC MOD confuses this script.
   "src/build/arc.el": ["analyze_diffs"],
 
+  # This is from NaCl SDK Tools.
+  "canned/host/nacl_sdk/download.py": ["flake8"],
+  "canned/host/nacl_sdk/sdk_update.py": ["flake8"],
+
   # This is part of the Chrome apps platform downloaded from GitHub:
   # https://github.com/petele/IAPDemo/blob/master/scripts/buy.js
   "canned/cws/buy.js": ["gjslint"]
