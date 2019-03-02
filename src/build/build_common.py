@@ -912,7 +912,7 @@ def run_ninja(args=None, cwd=None):
 
 
 def get_gsutil_executable():
-  gsutil = 'third_party/tools/depot_tools/third_party/gsutil/gsutil'
+  gsutil = 'third_party/tools/depot_tools/gsutil.py'
   if not os.access(gsutil, os.X_OK):
     raise Exception('%s is not available' % gsutil)
   return gsutil
